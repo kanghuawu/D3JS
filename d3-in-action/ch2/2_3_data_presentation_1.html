@@ -10,8 +10,7 @@
     d3.csv("../data/cities.csv", data => dataViz(data));
 
     function dataViz(data) {
-
-        console.log(data);
+        
         let maxPopulation = d3.max(data, d => parseInt(d.population));
         let yScale = d3.scaleLinear()
             .domain([0, maxPopulation])
