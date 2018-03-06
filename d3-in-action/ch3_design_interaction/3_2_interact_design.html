@@ -52,6 +52,13 @@
                 const teamG = d3.selectAll("g.overallG");
 
                 teamG.append("circle")
+                    .attr("r", 0)
+                    .transition()
+                    .delay((d, i) => i * 100)
+                    .duration(500)
+                    .attr("r", 40)
+                    .transition()
+                    .duration(500)
                     .attr("r", 20);
 
                 teamG.append("text")
@@ -65,7 +72,7 @@
                         .select("circle")
                         .classed("inactive", false)
                         .classed("active", false);
-                })
+                });
 
                 function highlightRegion(d) {
                     d3.selectAll("g.overallG")
