@@ -66,8 +66,8 @@
                     .attr("y", 30)
                     .text(d => d.team);
 
-                teamG.on("mouseover", highlightRegion);
-                teamG.on("mouseout", unhighlight);
+                // teamG.on("mouseover", highlightRegion);
+                // teamG.on("mouseout", unhighlight);
 
                 function highlightRegion(d) {
                     const teamColor = d3.rgb("#75739F");
@@ -110,9 +110,16 @@
                         .domain([0, maxValue])
                         .range([2, 20]);
 
+                    const ybRamp = d3.scaleLinear()
+                        .domain([0, maxValue])
+                        .range(["blue", "yellow"]);
+
                     d3.selectAll("g.overallG")
                         .select("circle")
-                        .attr("r", d=> radiusScale(d[dataPoint]));
+                        .transition()
+                        .duration(1000)
+                        .attr("r", d => radiusScale(d[dataPoint]))
+                        .style("fill", d => ybRamp(d[dataPoint]));
                 }
             }
         }
