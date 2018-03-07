@@ -102,7 +102,7 @@
                     .enter()
                     .append("button")
                     .on("click", buttonClick)
-                    .html(d => d)
+                    .html(d => d);
 
                 function buttonClick(dataPoint) {
                     const maxValue = d3.max(data, d => parseFloat(d[dataPoint]));
@@ -111,15 +111,22 @@
                         .range([2, 20]);
 
                     const ybRamp = d3.scaleLinear()
+                        // .interpolate(d3.interpolateHcl)
+                        .interpolate(d3.interpolateLab)
                         .domain([0, maxValue])
                         .range(["blue", "yellow"]);
+
+                    const tenColorScale = d3.scaleOrdinal()
+                        .domain(["UEFA", "CONMEBOL"])
+                        .range(d3.schemeCategory10)
+                        .unknown("#c4b9ac");
 
                     d3.selectAll("g.overallG")
                         .select("circle")
                         .transition()
                         .duration(1000)
                         .attr("r", d => radiusScale(d[dataPoint]))
-                        .style("fill", d => ybRamp(d[dataPoint]));
+                        .style("fill", d => tenColorScale(d.region));
                 }
             }
         }
