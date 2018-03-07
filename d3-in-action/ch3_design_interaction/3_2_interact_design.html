@@ -61,6 +61,24 @@
                     .html(data)
             });
 
+            d3.html("../resources/icon.svg", loadSVG);
+
+            function loadSVG(svgData) {
+                d3.selectAll("g").each(function () {
+                    const gParent = this;
+                    d3.select(svgData)
+                        .selectAll("path")
+                        .each(function () {
+                            gParent.appendChild(this.cloneNode(true));
+                        });
+                });
+                d3.selectAll("path")
+                    .style("fill", "#93C464")
+                    .style("stroke", "black")
+                    .style("stroke-width", "1px");
+
+            }
+
             function overallTeamViz(data) {
 
                 d3.select("svg")
@@ -92,13 +110,13 @@
                     .text(d => d.team);
 
                 // add flags
-                d3.selectAll("g.overallG")
-                    .insert("image", "text")
-                    .attr("xlink:href", d => `../images/${d.team}.png`)
-                    .attr("width", "45px")
-                    .attr("height", "20px")
-                    .attr("x", "-22")
-                    .attr("y", "-10");
+                // d3.selectAll("g.overallG")
+                //     .insert("image", "text")
+                //     .attr("xlink:href", d => `../images/${d.team}.png`)
+                //     .attr("width", "45px")
+                //     .attr("height", "20px")
+                //     .attr("x", "-22")
+                //     .attr("y", "-10");
 
                 // teamG.on("mouseover", highlightRegion);
                 // teamG.on("mouseout", unhighlight);
