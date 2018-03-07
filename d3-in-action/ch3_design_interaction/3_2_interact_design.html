@@ -72,8 +72,21 @@
                             gParent.appendChild(this.cloneNode(true));
                         });
                 });
+
+                d3.selectAll("g.overallG").each(function (d) {
+                    d3.select(this).selectAll("path").datum(d);
+                });
+
+                const fourColorScale = d3.scaleOrdinal()
+                    .domain(["UEFA", "CONMEBOL", "CONCACAF", "AFC"])
+                    .range(["#5eafc6", "#FE9922", "#93C464", "#fcbc34" ]);
+
                 d3.selectAll("path")
-                    .style("fill", "#93C464")
+                    .style("fill", p => {
+                        if (p) {
+                            return fourColorScale(p.region);
+                        }
+                    })
                     .style("stroke", "black")
                     .style("stroke-width", "1px");
 
