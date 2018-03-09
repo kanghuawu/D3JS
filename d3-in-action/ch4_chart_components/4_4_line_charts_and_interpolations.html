@@ -42,7 +42,7 @@
                 .attr("r", 5)
                 .attr("cx", d => xScale(d.day))
                 .attr("cy", d => yScale(d.tweets))
-                .style("fill", blue);
+                .style("fill", orange);
 
             d3.select("svg").selectAll("circle.retweets")
                 .data(data)
@@ -51,7 +51,7 @@
                 .attr("r", 5)
                 .attr("cx", d => xScale(d.day))
                 .attr("cy", d => yScale(d.retweets))
-                .style("fill", green);
+                .style("fill", blue);
 
             d3.select("svg").selectAll("circle.favorites")
                 .data(data)
@@ -60,7 +60,45 @@
                 .attr("r", 5)
                 .attr("cx", d => xScale(d.day))
                 .attr("cy", d => yScale(d.favorites))
-                .style("fill", orange);
+                .style("fill", green);
+
+            const lambdaXScale = d => xScale(d.day);
+            const tweetLine = d3.line()
+                .x(lambdaXScale)
+                .y(d => yScale(d.tweets));
+
+            const retweetLine = d3.line()
+                .x(lambdaXScale)
+                .y(d => yScale(d.retweets));
+
+            const favLine = d3.line()
+                .x(lambdaXScale)
+                .y(d => yScale(d.favorites));
+
+            tweetLine.curve(d3.curveBasis);
+            retweetLine.curve(d3.curveStep);
+            favLine.curve(d3.curveCardinal);
+
+            d3.select("svg")
+                .append("path")
+                .attr("d", tweetLine(data))
+                .attr("fill", "none")
+                .attr("stroke", orange)
+                .attr("stroke-width", 2);
+
+            d3.select("svg")
+                .append("path")
+                .attr("d", retweetLine(data))
+                .attr("fill", "none")
+                .attr("stroke", blue)
+                .attr("stroke-width", 2);
+
+            d3.select("svg")
+                .append("path")
+                .attr("d", favLine(data))
+                .attr("fill", "none")
+                .attr("stroke", green)
+                .attr("stroke-width", 2);
         }
     </script>
 </body>
