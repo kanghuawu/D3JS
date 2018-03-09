@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.2.8/d3.min.js" type="text/JavaScript"></script>
+    <style>
+    </style>
+</head>
+<body>
+<div id="viz">
+    <svg style="width:600px;height:600px;"></svg>
+</div>
+<script>
+    d3.csv('../data/movies.csv', dataViz);
+
+    function dataViz(data) {
+
+        const xScale = d3.scaleLinear().domain([0, 10]).range([0, 500]);
+        const yScale = d3.scaleLinear().domain([0, 100]).range([500, 0]);
+
+        const movies = ['titanic', 'avatar', 'akira', 'frozen', 'deliverance', 'avengers'];
+
+        const fillScale = d3.scaleOrdinal()
+            .domain(movies)
+            .range(["#fcd88a", "#cf7c1c", "#93c464", "#75734F", "#5eafc6", "#41a368"]);
+
+        const stackLayout = d3.stack()
+            .offset(d3.stackOffsetSilhouette) // change to different mode
+            .order(d3.stackOrderInsideOut) // change to different mode
+            .keys(movies);
+
+        yScale.domain([-50, 50]); // change to different mode
+
+        const stackArea = d3.area()
+            .x((d, i) => xScale(i))
+            .y0(d => yScale(d[0]))
+            .y1(d => yScale(d[1]))
+            .curve(d3.curveBasis);
+
+        console.log(data);
+        console.log(stackLayout(data));
+
+        d3.select('svg').selectAll('path')
+            .data(stackLayout(data)).enter()
+            .append('path')
+            .style('fill', d => fillScale(d.key))
+            .attr('d', d => stackArea(d));
+    }
+</script>
+</body>
+</html>
