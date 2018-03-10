@@ -15,6 +15,8 @@
 
     function sankeyViz(data) {
 
+        let numLayouts = 1;
+
         // console.log(JSON.parse(JSON.stringify(data)));
         const sankey = d3.sankey()
             .nodeWidth(0)
@@ -22,7 +24,21 @@
             .size([460, 460])
             .nodes(data.nodes)
             .links(data.links)
-            .layout(200);
+            .layout(numLayouts);
+
+        d3.select('svg').on('click', runMoreLayouts);
+        function runMoreLayouts() {
+            numLayouts += 20;
+            sankey.layout(numLayouts);
+            d3.selectAll('.link')
+                .transition()
+                .duration(500)
+                .attr('d', sankey.link());
+            d3.selectAll('.node')
+                .transition()
+                .duration(500)
+                .attr('transform', d => `translate(${d.x}, ${d.y})`);
+        }
 
         // console.log(JSON.parse(JSON.stringify(data))); // TypeError: cyclic object value
         const intensityRamp = d3.scaleLinear()
