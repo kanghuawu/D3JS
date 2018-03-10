@@ -11,5 +11,6 @@
     <orderEntry type="library" name="d3" level="application" />
     <orderEntry type="library" name="colorbrewer.v1" level="application" />
     <orderEntry type="library" name="d3-legend" level="application" />
+    <orderEntry type="library" name="d3-sankey" level="application" />
   </component>
 </module>
