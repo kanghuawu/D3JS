@@ -19,6 +19,8 @@
         const wordScale = d3.scaleLinear().domain([min - 5, max + 5]).range([10, 160]);
         const randomRotate = d3.scaleLinear().domain([0, 1]).range([-20, 20]);
 
+        const keywords = ['layout', 'zoom', 'circle', 'style', 'append', 'attr'];
+
         d3.cloud()
             .size([500, 500])
             .rotate(() => randomRotate(Math.random()))
@@ -36,7 +38,7 @@
                 .data(words).enter()
                 .append('text')
                 .style('font-size', d => d.size + 'px')
-                .style('fill', '#4F442B')
+                .style('fill', d => keywords.indexOf(d.text) >  -1 ? '#FE9922' : '#4F442B')
                 .attr('text-anchor', 'middle')
                 .attr('transform', d => `translate(${[d.x, d.y]})rotate(${d.rotate})`)
                 .text(d => d.text);
