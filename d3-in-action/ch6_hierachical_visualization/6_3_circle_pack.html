@@ -26,13 +26,16 @@
         };
 
         const packChart = d3.pack()
+            .padding(10)
             .size([500, 500]);
 
         const root = d3.hierarchy(packableTweets, d => d.values)
-            .sum(() => 1);
+            .sum(d => d.retweets ? d.retweets.length + d.favorites.length + 1 : undefined);
+
         console.log(data);
         console.log(nestedTweets);
         console.log(packChart(root).descendants());
+
         d3.select('svg')
             .append('g')
             .attr('transform', 'translate(100, 20)')
